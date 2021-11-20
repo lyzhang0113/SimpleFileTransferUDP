@@ -1,0 +1,597 @@
+Note:
+    * A detailed plot of different LOSS_RATE and AVERAGE_DELAY settings will be included in a separate PDF file.
+    * This file only shows some sample outputs and analysis for simplicity.
+    * The sequence number for each packet is added at the front of the data buffer.
+
+Configuration:
+    * The server is running on port 9093
+    * The filename for input file is "inputfile", and the filename for output file is "outputfile".
+    * Each file transfer starts with the packet containing a sequence number equal to 0,
+        then this sequence number flips between 0 and 1 in following packets.
+    * The maximum data size per packet is set to 512 Bytes, this means that each packet should have exactly 512 Bytes
+        of data (513 Bytes if including sequence number).
+    * The timeout for the client to wait for a ACK packet is set to 1000ms, after timeout, the client retransmits this
+        data packet, up to 5 retries.
+
+********** Test 1: Server and Client on Same Machine **********
+Server: Windows Desktop (localhost:9093)
+Client: Windoes Desktop (localhost)
+
+Input File:
+    A 50 KB size input file is randomly generated using command:
+        $ dd if=/dev/urandom of=inputfile bs=50KB count=1
+
+Output File:
+    outputfile
+
+Client Command Line:
+    $ javac SftpClient.java
+    $ java SftpClient localhost
+
+Server Command Line:
+    $ javac SftpServer.java
+    $ java SftpServer
+
+--- Test 1a: LOSS_RATE = 0.2   and AVERAGE_DELAY = 100   ---
+Note:
+    LOSS_RATE and AVERAGE_DELAY are added in this test case to simulate real-world network conditions,
+    as the server and the client are running at the same machine in this test case.
+Client Output:
+    Packet 1 sent, size = 512
+    Packet 2 sent, size = 512
+    Packet 3 sent, size = 512
+    Packet 4 sent, size = 512
+    Packet 5 sent, size = 512
+    Packet 6 sent, size = 512
+    Packet 7 sent, size = 512
+        Packet 7 Timeout.
+    Packet 7 sent, size = 512
+        Packet 7 Timeout.
+    Packet 7 sent, size = 512
+    Packet 8 sent, size = 512
+    Packet 9 sent, size = 512
+        Packet 9 Timeout.
+    Packet 9 sent, size = 512
+    Packet 10 sent, size = 512
+        Packet 10 Timeout.
+    Packet 10 sent, size = 512
+    Packet 11 sent, size = 512
+    Packet 12 sent, size = 512
+    Packet 13 sent, size = 512
+    Packet 14 sent, size = 512
+        Packet 14 Timeout.
+    Packet 14 sent, size = 512
+        Packet 14 Timeout.
+    Packet 14 sent, size = 512
+    Packet 15 sent, size = 512
+    Packet 16 sent, size = 512
+    Packet 17 sent, size = 512
+    Packet 18 sent, size = 512
+    Packet 19 sent, size = 512
+    Packet 20 sent, size = 512
+    Packet 21 sent, size = 512
+    Packet 22 sent, size = 512
+    Packet 23 sent, size = 512
+        Packet 23 Timeout.
+    Packet 23 sent, size = 512
+    Packet 24 sent, size = 512
+    Packet 25 sent, size = 512
+    Packet 26 sent, size = 512
+    Packet 27 sent, size = 512
+    Packet 28 sent, size = 512
+    Packet 29 sent, size = 512
+    Packet 30 sent, size = 512
+        Packet 30 Timeout.
+    Packet 30 sent, size = 512
+    Packet 31 sent, size = 512
+        Packet 31 Timeout.
+    Packet 31 sent, size = 512
+    Packet 32 sent, size = 512
+    Packet 33 sent, size = 512
+    Packet 34 sent, size = 512
+        Packet 34 Timeout.
+    Packet 34 sent, size = 512
+    Packet 35 sent, size = 512
+    Packet 36 sent, size = 512
+        Packet 36 Timeout.
+    Packet 36 sent, size = 512
+    Packet 37 sent, size = 512
+        Packet 37 Timeout.
+    Packet 37 sent, size = 512
+    Packet 38 sent, size = 512
+        Packet 38 Timeout.
+    Packet 38 sent, size = 512
+    Packet 39 sent, size = 512
+        Packet 39 Timeout.
+    Packet 39 sent, size = 512
+        Packet 39 Timeout.
+    Packet 39 sent, size = 512
+    Packet 40 sent, size = 512
+    Packet 41 sent, size = 512
+    Packet 42 sent, size = 512
+    Packet 43 sent, size = 512
+    Packet 44 sent, size = 512
+        Packet 44 Timeout.
+    Packet 44 sent, size = 512
+    Packet 45 sent, size = 512
+    Packet 46 sent, size = 512
+    Packet 47 sent, size = 512
+    Packet 48 sent, size = 512
+    Packet 49 sent, size = 512
+        Packet 49 Timeout.
+    Packet 49 sent, size = 512
+    Packet 50 sent, size = 512
+    Packet 51 sent, size = 512
+    Packet 52 sent, size = 512
+        Packet 52 Timeout.
+    Packet 52 sent, size = 512
+    Packet 53 sent, size = 512
+    Packet 54 sent, size = 512
+    Packet 55 sent, size = 512
+    Packet 56 sent, size = 512
+        Packet 56 Timeout.
+    Packet 56 sent, size = 512
+    Packet 57 sent, size = 512
+        Packet 57 Timeout.
+    Packet 57 sent, size = 512
+    Packet 58 sent, size = 512
+    Packet 59 sent, size = 512
+        Packet 59 Timeout.
+    Packet 59 sent, size = 512
+    Packet 60 sent, size = 512
+    Packet 61 sent, size = 512
+        Packet 61 Timeout.
+    Packet 61 sent, size = 512
+    Packet 62 sent, size = 512
+    Packet 63 sent, size = 512
+    Packet 64 sent, size = 512
+        Packet 64 Timeout.
+    Packet 64 sent, size = 512
+    Packet 65 sent, size = 512
+    Packet 66 sent, size = 512
+        Packet 66 Timeout.
+    Packet 66 sent, size = 512
+    Packet 67 sent, size = 512
+    Packet 68 sent, size = 512
+    Packet 69 sent, size = 512
+    Packet 70 sent, size = 512
+    Packet 71 sent, size = 512
+    Packet 72 sent, size = 512
+    Packet 73 sent, size = 512
+    Packet 74 sent, size = 512
+    Packet 75 sent, size = 512
+    Packet 76 sent, size = 512
+    Packet 77 sent, size = 512
+    Packet 78 sent, size = 512
+    Packet 79 sent, size = 512
+        Packet 79 Timeout.
+    Packet 79 sent, size = 512
+    Packet 80 sent, size = 512
+    Packet 81 sent, size = 512
+    Packet 82 sent, size = 512
+    Packet 83 sent, size = 512
+    Packet 84 sent, size = 512
+    Packet 85 sent, size = 512
+    Packet 86 sent, size = 512
+    Packet 87 sent, size = 512
+    Packet 88 sent, size = 512
+    Packet 89 sent, size = 512
+        Packet 89 Timeout.
+    Packet 89 sent, size = 512
+    Packet 90 sent, size = 512
+    Packet 91 sent, size = 512
+    Packet 92 sent, size = 512
+    Packet 93 sent, size = 512
+    Packet 94 sent, size = 512
+    Packet 95 sent, size = 512
+    Packet 96 sent, size = 512
+    Packet 97 sent, size = 512
+    Packet 98 sent, size = 336
+    sFTP: file sent successfully to 127.0.0.1 in 36 secs
+
+    Process finished with exit code 0
+
+
+Server Output:
+    Packet 1 received, size = 512
+    Packet 2 received, size = 512
+    Packet 3 received, size = 512
+    Packet 4 received, size = 512
+    Packet 5 received, size = 512
+    Packet 6 received, size = 512
+    Packet 7 received, size = 512
+        Packet 7 Reply ACK not sent.
+    Packet 7 received, size = 512
+        Packet 7 Reply ACK not sent.
+    Packet 7 received, size = 512
+    Packet 8 received, size = 512
+    Packet 9 received, size = 512
+        Packet 9 Reply ACK not sent.
+    Packet 9 received, size = 512
+    Packet 10 received, size = 512
+        Packet 10 Reply ACK not sent.
+    Packet 10 received, size = 512
+    Packet 11 received, size = 512
+    Packet 12 received, size = 512
+    Packet 13 received, size = 512
+    Packet 14 received, size = 512
+        Packet 14 Reply ACK not sent.
+    Packet 14 received, size = 512
+        Packet 14 Reply ACK not sent.
+    Packet 14 received, size = 512
+    Packet 15 received, size = 512
+    Packet 16 received, size = 512
+    Packet 17 received, size = 512
+    Packet 18 received, size = 512
+    Packet 19 received, size = 512
+    Packet 20 received, size = 512
+    Packet 21 received, size = 512
+    Packet 22 received, size = 512
+    Packet 23 received, size = 512
+        Packet 23 Reply ACK not sent.
+    Packet 23 received, size = 512
+    Packet 24 received, size = 512
+    Packet 25 received, size = 512
+    Packet 26 received, size = 512
+    Packet 27 received, size = 512
+    Packet 28 received, size = 512
+    Packet 29 received, size = 512
+    Packet 30 received, size = 512
+        Packet 30 Reply ACK not sent.
+    Packet 30 received, size = 512
+    Packet 31 received, size = 512
+        Packet 31 Reply ACK not sent.
+    Packet 31 received, size = 512
+    Packet 32 received, size = 512
+    Packet 33 received, size = 512
+    Packet 34 received, size = 512
+        Packet 34 Reply ACK not sent.
+    Packet 34 received, size = 512
+    Packet 35 received, size = 512
+    Packet 36 received, size = 512
+        Packet 36 Reply ACK not sent.
+    Packet 36 received, size = 512
+    Packet 37 received, size = 512
+        Packet 37 Reply ACK not sent.
+    Packet 37 received, size = 512
+    Packet 38 received, size = 512
+        Packet 38 Reply ACK not sent.
+    Packet 38 received, size = 512
+    Packet 39 received, size = 512
+        Packet 39 Reply ACK not sent.
+    Packet 39 received, size = 512
+        Packet 39 Reply ACK not sent.
+    Packet 39 received, size = 512
+    Packet 40 received, size = 512
+    Packet 41 received, size = 512
+    Packet 42 received, size = 512
+    Packet 43 received, size = 512
+    Packet 44 received, size = 512
+        Packet 44 Reply ACK not sent.
+    Packet 44 received, size = 512
+    Packet 45 received, size = 512
+    Packet 46 received, size = 512
+    Packet 47 received, size = 512
+    Packet 48 received, size = 512
+    Packet 49 received, size = 512
+        Packet 49 Reply ACK not sent.
+    Packet 49 received, size = 512
+    Packet 50 received, size = 512
+    Packet 51 received, size = 512
+    Packet 52 received, size = 512
+        Packet 52 Reply ACK not sent.
+    Packet 52 received, size = 512
+    Packet 53 received, size = 512
+    Packet 54 received, size = 512
+    Packet 55 received, size = 512
+    Packet 56 received, size = 512
+        Packet 56 Reply ACK not sent.
+    Packet 56 received, size = 512
+    Packet 57 received, size = 512
+        Packet 57 Reply ACK not sent.
+    Packet 57 received, size = 512
+    Packet 58 received, size = 512
+    Packet 59 received, size = 512
+        Packet 59 Reply ACK not sent.
+    Packet 59 received, size = 512
+    Packet 60 received, size = 512
+    Packet 61 received, size = 512
+        Packet 61 Reply ACK not sent.
+    Packet 61 received, size = 512
+    Packet 62 received, size = 512
+    Packet 63 received, size = 512
+    Packet 64 received, size = 512
+        Packet 64 Reply ACK not sent.
+    Packet 64 received, size = 512
+    Packet 65 received, size = 512
+    Packet 66 received, size = 512
+        Packet 66 Reply ACK not sent.
+    Packet 66 received, size = 512
+    Packet 67 received, size = 512
+    Packet 68 received, size = 512
+    Packet 69 received, size = 512
+    Packet 70 received, size = 512
+    Packet 71 received, size = 512
+    Packet 72 received, size = 512
+    Packet 73 received, size = 512
+    Packet 74 received, size = 512
+    Packet 75 received, size = 512
+    Packet 76 received, size = 512
+    Packet 77 received, size = 512
+    Packet 78 received, size = 512
+    Packet 79 received, size = 512
+        Packet 79 Reply ACK not sent.
+    Packet 79 received, size = 512
+    Packet 80 received, size = 512
+    Packet 81 received, size = 512
+    Packet 82 received, size = 512
+    Packet 83 received, size = 512
+    Packet 84 received, size = 512
+    Packet 85 received, size = 512
+    Packet 86 received, size = 512
+    Packet 87 received, size = 512
+    Packet 88 received, size = 512
+    Packet 89 received, size = 512
+        Packet 89 Reply ACK not sent.
+    Packet 89 received, size = 512
+    Packet 90 received, size = 512
+    Packet 91 received, size = 512
+    Packet 92 received, size = 512
+    Packet 93 received, size = 512
+    Packet 94 received, size = 512
+    Packet 95 received, size = 512
+    Packet 96 received, size = 512
+    Packet 97 received, size = 512
+    Packet 98 received, size = 336
+    sFTP: file received successfully from 127.0.0.1 with total size of 50000 bytes
+          [C:\Users\zly20\IdeaProjects\SimpleFileTransferUDP\outputfile]
+
+
+Analysis:
+    The 50-KB file is divided into 98 packets, each has a size of 512 Bytes, with the last one having 336 Bytes.
+    The server intentionally dropped 26 packets, and the average delay for each ACK is set to 100ms.
+    Under this setting, the 50-KB file is transmitted from the client to the server in 36 seconds.
+    The file is then checked and verified using the command:
+        $ cmp inputfile outputfile
+    As no different byte is printed in the console, these two files are identical.
+
+********** Test 2: Server and Client on Different Machine in Different Networks **********
+Server: Windows Desktop on Spectrum Network (67.240.61.49:9093)
+Client: Android Phone on T-Mobile Network (6.139.162.182)
+
+Note:
+    * Because the server is hidden behind a NAT table, port forwarding is enabled in home
+        router in order for the client to reach the server.
+    * My android phone has an emulated linux environment, therefore I can run linux commands
+        on it as well as compiling and running Java applications.
+
+Input File:
+    A 50 KB size input file is randomly generated using command:
+        $ dd if=/dev/urandom of=inputfile bs=50KB count=1
+
+Output File:
+    outputfile
+
+Client Command Line:
+    $ javac SftpClient.java
+    $ java SftpClient rpi459321066.asuscomm.com
+
+Server Command Line:
+    $ javac SftpServer.java
+    $ java SftpServer
+
+--- Test 2a: LOSS_RATE = 0   and AVERAGE_DELAY = 0   ---
+Note:
+    Because this test case is transferring files in real world network conditions,
+    the LOSS_RATE and AVERAGE_DELAY are both set to 0 to find the actual network
+    performances.
+
+Client Output:
+    Packet 1 sent, size = 512
+    Packet 2 sent, size = 512
+    Packet 3 sent, size = 512
+    Packet 4 sent, size = 512
+    Packet 5 sent, size = 512
+    Packet 6 sent, size = 512
+    Packet 7 sent, size = 512
+    Packet 8 sent, size = 512
+    Packet 9 sent, size = 512
+    Packet 10 sent, size = 512
+    Packet 11 sent, size = 512
+    Packet 12 sent, size = 512
+    Packet 13 sent, size = 512
+    Packet 14 sent, size = 512
+    Packet 15 sent, size = 512
+    Packet 16 sent, size = 512
+    Packet 17 sent, size = 512
+    Packet 18 sent, size = 512
+    Packet 19 sent, size = 512
+    Packet 20 sent, size = 512
+    Packet 21 sent, size = 512
+    Packet 22 sent, size = 512
+    Packet 23 sent, size = 512
+    Packet 24 sent, size = 512
+    Packet 25 sent, size = 512
+    Packet 26 sent, size = 512
+    Packet 27 sent, size = 512
+    Packet 28 sent, size = 512
+    Packet 29 sent, size = 512
+    Packet 30 sent, size = 512
+    Packet 31 sent, size = 512
+    Packet 32 sent, size = 512
+    Packet 33 sent, size = 512
+    Packet 34 sent, size = 512
+    Packet 35 sent, size = 512
+    Packet 36 sent, size = 512
+    Packet 37 sent, size = 512
+    Packet 38 sent, size = 512
+    Packet 39 sent, size = 512
+    Packet 40 sent, size = 512
+    Packet 41 sent, size = 512
+    Packet 42 sent, size = 512
+    Packet 43 sent, size = 512
+    Packet 44 sent, size = 512
+    Packet 45 sent, size = 512
+    Packet 46 sent, size = 512
+    Packet 47 sent, size = 512
+    Packet 48 sent, size = 512
+    Packet 49 sent, size = 512
+    Packet 50 sent, size = 512
+    Packet 51 sent, size = 512
+    Packet 52 sent, size = 512
+    Packet 53 sent, size = 512
+    Packet 54 sent, size = 512
+    Packet 55 sent, size = 512
+    Packet 56 sent, size = 512
+    Packet 57 sent, size = 512
+    Packet 58 sent, size = 512
+    Packet 59 sent, size = 512
+    Packet 60 sent, size = 512
+    Packet 61 sent, size = 512
+    Packet 62 sent, size = 512
+    Packet 63 sent, size = 512
+    Packet 64 sent, size = 512
+    Packet 65 sent, size = 512
+    Packet 66 sent, size = 512
+    Packet 67 sent, size = 512
+    Packet 68 sent, size = 512
+    Packet 69 sent, size = 512
+    Packet 70 sent, size = 512
+    Packet 71 sent, size = 512
+    Packet 72 sent, size = 512
+    Packet 73 sent, size = 512
+    Packet 74 sent, size = 512
+    Packet 75 sent, size = 512
+    Packet 76 sent, size = 512
+    Packet 77 sent, size = 512
+    Packet 78 sent, size = 512
+    Packet 79 sent, size = 512
+    Packet 80 sent, size = 512
+    Packet 81 sent, size = 512
+    Packet 82 sent, size = 512
+    Packet 83 sent, size = 512
+    Packet 84 sent, size = 512
+    Packet 85 sent, size = 512
+    Packet 86 sent, size = 512
+    Packet 87 sent, size = 512
+    Packet 88 sent, size = 512
+    Packet 89 sent, size = 512
+    Packet 90 sent, size = 512
+    Packet 91 sent, size = 512
+    Packet 92 sent, size = 512
+    Packet 93 sent, size = 512
+    Packet 94 sent, size = 512
+    Packet 95 sent, size = 512
+    Packet 96 sent, size = 512
+    Packet 97 sent, size = 512
+    Packet 98 sent, size = 336
+    sFTP: file sent successfully to 67.240.61.49 in 9 secs
+
+Server Output:
+    Packet 1 received, size = 512
+    Packet 2 received, size = 512
+    Packet 3 received, size = 512
+    Packet 4 received, size = 512
+    Packet 5 received, size = 512
+    Packet 6 received, size = 512
+    Packet 7 received, size = 512
+    Packet 8 received, size = 512
+    Packet 9 received, size = 512
+    Packet 10 received, size = 512
+    Packet 11 received, size = 512
+    Packet 12 received, size = 512
+    Packet 13 received, size = 512
+    Packet 14 received, size = 512
+    Packet 15 received, size = 512
+    Packet 16 received, size = 512
+    Packet 17 received, size = 512
+    Packet 18 received, size = 512
+    Packet 19 received, size = 512
+    Packet 20 received, size = 512
+    Packet 21 received, size = 512
+    Packet 22 received, size = 512
+    Packet 23 received, size = 512
+    Packet 24 received, size = 512
+    Packet 25 received, size = 512
+    Packet 26 received, size = 512
+    Packet 27 received, size = 512
+    Packet 28 received, size = 512
+    Packet 29 received, size = 512
+    Packet 30 received, size = 512
+    Packet 31 received, size = 512
+    Packet 32 received, size = 512
+    Packet 33 received, size = 512
+    Packet 34 received, size = 512
+    Packet 35 received, size = 512
+    Packet 36 received, size = 512
+    Packet 37 received, size = 512
+    Packet 38 received, size = 512
+    Packet 39 received, size = 512
+    Packet 40 received, size = 512
+    Packet 41 received, size = 512
+    Packet 42 received, size = 512
+    Packet 43 received, size = 512
+    Packet 44 received, size = 512
+    Packet 45 received, size = 512
+    Packet 46 received, size = 512
+    Packet 47 received, size = 512
+    Packet 48 received, size = 512
+    Packet 49 received, size = 512
+    Packet 50 received, size = 512
+    Packet 51 received, size = 512
+    Packet 52 received, size = 512
+    Packet 53 received, size = 512
+    Packet 54 received, size = 512
+    Packet 55 received, size = 512
+    Packet 56 received, size = 512
+    Packet 57 received, size = 512
+    Packet 58 received, size = 512
+    Packet 59 received, size = 512
+    Packet 60 received, size = 512
+    Packet 61 received, size = 512
+    Packet 62 received, size = 512
+    Packet 63 received, size = 512
+    Packet 64 received, size = 512
+    Packet 65 received, size = 512
+    Packet 66 received, size = 512
+    Packet 67 received, size = 512
+    Packet 68 received, size = 512
+    Packet 69 received, size = 512
+    Packet 70 received, size = 512
+    Packet 71 received, size = 512
+    Packet 72 received, size = 512
+    Packet 73 received, size = 512
+    Packet 74 received, size = 512
+    Packet 75 received, size = 512
+    Packet 76 received, size = 512
+    Packet 77 received, size = 512
+    Packet 78 received, size = 512
+    Packet 79 received, size = 512
+    Packet 80 received, size = 512
+    Packet 81 received, size = 512
+    Packet 82 received, size = 512
+    Packet 83 received, size = 512
+    Packet 84 received, size = 512
+    Packet 85 received, size = 512
+    Packet 86 received, size = 512
+    Packet 87 received, size = 512
+    Packet 88 received, size = 512
+    Packet 89 received, size = 512
+    Packet 90 received, size = 512
+    Packet 91 received, size = 512
+    Packet 92 received, size = 512
+    Packet 93 received, size = 512
+    Packet 94 received, size = 512
+    Packet 95 received, size = 512
+    Packet 96 received, size = 512
+    Packet 97 received, size = 512
+    Packet 98 received, size = 336
+    sFTP: file received successfully from 172.58.239.10 with total size of 50000 bytes
+          [C:\Users\zly20\IdeaProjects\SimpleFileTransferUDP\outputfile]
+
+Analysis:
+    The 50-KB file is divided the same as the previous test case. No packet loss was experienced during this transfer.
+    The 50-KB file is transferred completely and successfully in 9 seconds.
+    The correctness of the output file is checked by moving the outputfile to the PC using a USB cable, and checked
+    using command:
+        $ cmp inputfile outputfile
