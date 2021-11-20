@@ -1,0 +1,462 @@
+Note:
+    * The client sends out 10 ping requests successively in each test.
+    * The timeout on socket is set to 1 second.
+    * Each ping request contains a 56 bytes random generated data (readable characters), this data
+        is checked for integrity in response to prevent errors in transmission.
+
+********** Test 1: Server and Client on Same Machine **********
+Server: Windows Desktop (localhost:8081)
+Client: Windows Desktop (localhost)
+
+--- Test 1a: LOSS_RATE = 0   and AVERAGE_DELAY = 0   ---
+Client Output:
+    PING 127.0.0.1 0 8.648
+    PING 127.0.0.1 1 0.338
+    PING 127.0.0.1 2 0.268
+    PING 127.0.0.1 3 0.272
+    PING 127.0.0.1 4 0.273
+    PING 127.0.0.1 5 0.264
+    PING 127.0.0.1 6 0.275
+    PING 127.0.0.1 7 0.263
+    PING 127.0.0.1 8 0.305
+    PING 127.0.0.1 9 0.290
+Server Output:
+    Received from 127.0.0.1: Ive5fduzWWmxgXQxzXjbXiwaI1jhNCV0Td4MirzSEnWttGr0pPR5OiU4
+       Reply sent.
+    Received from 127.0.0.1: 0qAUIwQwzptuLwoxCO59RT8EwK5jb8HGKNkD93B0GiOpSX5YPceTAv2U
+       Reply sent.
+    Received from 127.0.0.1: dvGpPhdTidovzk8TW1pbhlEWqbpkKDm0is1K4IlP9sRojAbdTIPoeV3l
+       Reply sent.
+    Received from 127.0.0.1: WXJy4K3KdXJOY2XYyo33ppbAMglN3aJxo14JveYBssMxXcMqGssaIo1C
+       Reply sent.
+    Received from 127.0.0.1: KdP97IsEq2MYXDwrQx9WBRHlKEyFXXnEyp0KRoIklH9T0LehW86j61Ta
+       Reply sent.
+    Received from 127.0.0.1: wEx0IpzYeIe5tnff3K4zZFtC1c4FP2oKumUF57IGjW0Fob8JcH918bKZ
+       Reply sent.
+    Received from 127.0.0.1: wXcgm8tl0hhNlEZoPcvq51ixWRnMDE4BTgV85r2OVgwN2UJ1WLHFN4vI
+       Reply sent.
+    Received from 127.0.0.1: gzIvot58eSvDPAK1uhH2ORNGYfZZgOQexNE5kXtaq8GfmxCOV5n7L1lm
+       Reply sent.
+    Received from 127.0.0.1: 7T6SCVn1ta7rkdifd11tKpvWvajOVmFb8ETQB4LqBvnF4XNCuVbuGS1P
+       Reply sent.
+    Received from 127.0.0.1: XUlcNmDvu56fQ5f9kK8wdBeEXkjRtvsgh46JESJ3AtQ0OcXURFv3rZ8n
+       Reply sent.
+Analysis:
+    The average rtt in this case is 1.120ms with no timeouts, however, the first response took noticeably longer
+    compared to others. One assumption for this phenomenon is that the first connection takes a longer time to establish.
+
+--- Test 1b: LOSS_RATE = 0   and AVERAGE_DELAY = 100 ---
+Client Output:
+    PING 127.0.0.1 0 111.629
+    PING 127.0.0.1 1 61.417
+    PING 127.0.0.1 2 15.433
+    PING 127.0.0.1 3 178.506
+    PING 127.0.0.1 4 65.796
+    PING 127.0.0.1 5 192.903
+    PING 127.0.0.1 6 124.731
+    PING 127.0.0.1 7 179.097
+    PING 127.0.0.1 8 192.897
+    PING 127.0.0.1 9 75.809
+Server Output:
+    Received from 127.0.0.1: KxTfa4xf3iHqTjMkcHf6i0FxEYNmNW29Iibnnfea3sTwAr0Vg9dyBxWj
+       Reply sent.
+    Received from 127.0.0.1: p2vpvXnLh6OWqOsSiid6zbtQxEzPFQiC8jJFpUfPDd2DZrL95oTVwMBY
+       Reply sent.
+    Received from 127.0.0.1: mPv3fx2B2KzRixZYhWqOvBxUgU5OTBsPqlLKsyapHO51owp6Sm5jwRCN
+       Reply sent.
+    Received from 127.0.0.1: SxP2fgFr45hbptHPuOkSiFJY5N7ClTLdGR5VlX3WRWiCfom4lhYdgjg3
+       Reply sent.
+    Received from 127.0.0.1: tagsJaPfiLXv4pz9JhVgtwcxtrEEbtcQWroPAQ4e0eOZgw0oQdGriJRE
+       Reply sent.
+    Received from 127.0.0.1: kL9NW95z2hspbollxUuTbXB5rHBryXlgWrBotAzb4kt3C53nKrWYnyvm
+       Reply sent.
+    Received from 127.0.0.1: qOx6MbVWZ1VmtmHOr37VnNeAwZW9FUvzqW18m0kQtP0zTOHe2kGTkwAj
+       Reply sent.
+    Received from 127.0.0.1: 4aALtT7sYhBv8rDBEKEVgl8GloFVahsBtV8R7QqQCo9mpDANxiTAavIR
+       Reply sent.
+    Received from 127.0.0.1: 522MxKh7IpaZDc4FiRXqZTS8VUvxu3oQTDqJKt9HFLkVZUDWV6j4y8b8
+       Reply sent.
+    Received from 127.0.0.1: dqdQlBxqqngLl7Dh8tLC3yrh29iA3yMvCvDD0hQdBspo3P8Otbwnpzga
+       Reply sent.
+Analysis:
+    The average rtt in this case is 119.822ms with no timeouts.
+
+--- Test 1c: LOSS_RATE = 0.2 and AVERAGE_DELAY = 0   ---
+Client Output:
+    PING 127.0.0.1 0 7.196
+    PING 127.0.0.1 1 0.334
+    PING 127.0.0.1 2 0.503
+    PING 127.0.0.1 3 0.311
+    PING 127.0.0.1 4 0.264
+    PING 127.0.0.1 5 LOST
+    PING 127.0.0.1 6 0.336
+    PING 127.0.0.1 7 0.281
+    PING 127.0.0.1 8 0.260
+    PING 127.0.0.1 9 0.263
+Server Output:
+    Received from 127.0.0.1: RLmSdsopXZVRH4MLXlg17jZQqsors5b0MEeu2h17QDFtw7qNE1evACDk
+       Reply sent.
+    Received from 127.0.0.1: yifcQOsi04RX837AWJsgpqR9tc3IDmYVXAJ92ztD0S0bNFptwH5K4cP5
+       Reply sent.
+    Received from 127.0.0.1: ldoq0gLVcPcvvx1DXLDYWQ0lZf9fmrtmIsdAljfQwgfRbCN28UN9Bj1Y
+       Reply sent.
+    Received from 127.0.0.1: 2407yj7QE5Nxvgy8nDyfZgpAHKgkjbvCS18S1NKgcbnvuTGuAKBw2rwi
+       Reply sent.
+    Received from 127.0.0.1: v7IhW2Qqmkt1YRGI0ez9kKfIApI7io19LuUqKW3flsLlajHNyKAjEb66
+       Reply sent.
+    Received from 127.0.0.1: 7IJwRYFKgt98wAwaZNbxc9K6IlnYFL7OcgLu0IXVWp8B8JcVWtBTVGQQ
+       Reply not sent.
+    Received from 127.0.0.1: ZbgKoA0gDGVb9N0zC57C9KROahnBn8a7sXihH4Ll48O0XUoF8M9xxzJU
+       Reply sent.
+    Received from 127.0.0.1: yuN0Dwc7huTmunrWJVfU5xu9PUHjJBawYsQgqTxv3QhMFv6bZxLlLGvi
+       Reply sent.
+    Received from 127.0.0.1: yZLyDaKSS5AwdE7TUGYGJzFVJ3Rd2KTa2MJs9VUreHI9eWVES9fyoYhs
+       Reply sent.
+    Received from 127.0.0.1: 2MkcaanWkDwWNkmOSI8PF6vxW8mHcEv7s8IdcmdHWkX2l4m23qyFEOEl
+       Reply sent.
+Analysis:
+    The average rtt in this case is 1.083ms (excluding timeouts), and one packet is considered lost (dropped
+    intentionally by server).
+
+--- Test 1d: LOSS_RATE = 0.2 and AVERAGE_DELAY = 100 ---
+Client Output:
+    PING 127.0.0.1 0 95.256
+    PING 127.0.0.1 1 8.976
+    PING 127.0.0.1 2 6.898
+    PING 127.0.0.1 3 13.897
+    PING 127.0.0.1 4 147.063
+    PING 127.0.0.1 5 47.365
+    PING 127.0.0.1 6 26.921
+    PING 127.0.0.1 7 86.718
+    PING 127.0.0.1 8 LOST
+    PING 127.0.0.1 9 158.562
+Server Output:
+    Received from 127.0.0.1: GS9AcS9xG3ovSXosz6mZkbnERcR341ibXLoC7CxUO5kqwB8PVtLQM9Oa
+       Reply sent.
+    Received from 127.0.0.1: 28mDrVvUID80ie9btg9IFP8kQAQOjLIYPrw3oIi4ScnK9L1mRlKlULyW
+       Reply sent.
+    Received from 127.0.0.1: WfswHrLFuM8iwAYOFd65bJm3qaBE9Gn81Dyppqqn1d8tL3S0QepSSxFQ
+       Reply sent.
+    Received from 127.0.0.1: VUoy4o8qD72dqQ2laChgcXJ4qPnIccktTIXAzAOUCxAE4EzMz8VjQ00q
+       Reply sent.
+    Received from 127.0.0.1: DmH5Fg3FKuPlaNRrnZLs3TCdfXq3LLIE3OV7KpFMlMp1ymoZVOJCnjA0
+       Reply sent.
+    Received from 127.0.0.1: rC2Kmt1x7acJQ9XOWqSkINGOFI6mrt03WfDS9hkNpAZ3NChD2PBM17Bh
+       Reply sent.
+    Received from 127.0.0.1: SDkrUaQAJcVstbzC2znhSugqbd0RCi6340W1Z3tXqWqEWp36dhmLb6Px
+       Reply sent.
+    Received from 127.0.0.1: IzqyGT3Hhxn3e1s4RhBr4lRYmuMNS5w1U1MI0NeaidJQ66CEmHj5tc8O
+       Reply sent.
+    Received from 127.0.0.1: yeqryYaZjx71l2at8VTSAXOrzAd4Y66qH9WFQvA74OKZtx5k3DhIdhTD
+       Reply not sent.
+    Received from 127.0.0.1: nc96PyZgZIck1GA5vakHcbPb557tFEbcJOUZLhHDTCJlgTYAE0wmT6Wn
+       Reply sent.
+Analysis:
+    The average rtt in this case is 65.740ms (excluding timeouts), and one packet is considered lost (dropped
+    intentionally by server).
+
+
+********** Test 2: Server and Client on Different Machine in Same Home Network **********
+Server: Windows Desktop (192.168.1.233:8001)
+Client: Ubuntu Laptop (192.168.1.196)
+
+--- Test 2a: LOSS_RATE = 0   and AVERAGE_DELAY = 0   ---
+Client Output:
+    PING 192.168.1.233 0 2.934
+    PING 192.168.1.233 1 14.026
+    PING 192.168.1.233 2 4.210
+    PING 192.168.1.233 3 6.419
+    PING 192.168.1.233 4 7.040
+    PING 192.168.1.233 5 3.374
+    PING 192.168.1.233 6 2.482
+    PING 192.168.1.233 7 9.007
+    PING 192.168.1.233 8 2.815
+    PING 192.168.1.233 9 1.983
+Server Output:
+    Received from 192.168.1.196: nFIgkSLUefSsusAD6IQ2maHO3Y2tcU0SHb6slQM616FrQDtuTam2eL8o
+       Reply sent.
+    Received from 192.168.1.196: VEYxFpq67c30mqIGAQPmTrr6smVYu44J0zcVmegk5kepjpdwTGqYw58S
+       Reply sent.
+    Received from 192.168.1.196: ohQ1RG0ZBRn5cm5BKbnECCdvClZ2fHgUOFCuozac5stJ3nTOvWKgmF8s
+       Reply sent.
+    Received from 192.168.1.196: KEfbC2ETOyNFLRaYtVAL1cCmHl0yfY7F6Ixz6OQfgEhdzCq9TxZS7lgZ
+       Reply sent.
+    Received from 192.168.1.196: 2gXv1BIGJXDJhtRjsrFAyxVcTk3U7FUQ5KL5Yu5P748AhBw0iGVo4Gjn
+       Reply sent.
+    Received from 192.168.1.196: 05DwOvUS76GrfUVW20IbFWVeqSkBDWlIzFQDZ9Jqche1euUofy3T7DXq
+       Reply sent.
+    Received from 192.168.1.196: Dq91h5nD8cGygaxe5rXY1aDOx9o5rUBlCzW0Zeg7NffywGu60IWTgcQb
+       Reply sent.
+    Received from 192.168.1.196: fOooqSyTYbHje9q8ggslAUF9g5RDJomzQgWNFewOj1W2Wymr39lJzEMH
+       Reply sent.
+    Received from 192.168.1.196: iUPZylFXb95AKQ0WFChXQO2SiryaZjvaXeeDUJ1AW4R4Rsw1yeMTAgeL
+       Reply sent.
+    Received from 192.168.1.196: CwHIA8xdUQCsSXMupkKbfrj9WtXYVJvzABTXKzZwRjnczghxrXa2B3P7
+       Reply sent.
+Analysis:
+    The average rtt in this case is 5.429ms with no timeouts, however, the first response took noticeably longer
+    compared to others. One assumption for this phenomenon is that the first connection takes a longer time to establish.
+
+--- Test 2b: LOSS_RATE = 0   and AVERAGE_DELAY = 100 ---
+Client Output:
+    PING 192.168.1.233 0 36.512
+    PING 192.168.1.233 1 49.975
+    PING 192.168.1.233 2 227.969
+    PING 192.168.1.233 3 69.592
+    PING 192.168.1.233 4 119.825
+    PING 192.168.1.233 5 144.822
+    PING 192.168.1.233 6 175.432
+    PING 192.168.1.233 7 70.240
+    PING 192.168.1.233 8 31.411
+    PING 192.168.1.233 9 129.619
+Server Output:
+    Received from 192.168.1.196: ebEm0BmLASINisALhA6RIRZZAcI9cGId4452NuJxttW0KOurjf3QYWPq
+       Reply sent.
+    Received from 192.168.1.196: pHijabifqojSyHxIwslq9ZEhGQ8lqtGyGErILtK6aF93dNbmTJbZ5CLu
+       Reply sent.
+    Received from 192.168.1.196: lXD8IW5XjfpX6HcMDBeg8YITyBZQtLjsLRMoxCfoDWkHrpoph9Zio8Hl
+       Reply sent.
+    Received from 192.168.1.196: 8KBFsxnlNB2JcRsW6JwZc4egI7VlzyCVn71mHzW6TT3xZpsOzDR0MYMo
+       Reply sent.
+    Received from 192.168.1.196: zSYvq3xOZ97uJO3bQWLro33gMduWRyGDz6JnY7fFwJ75afsCYml2Fs7O
+       Reply sent.
+    Received from 192.168.1.196: xZmP9pNb0PhrHf8D57rVtp595QBT0wjJ3ynQT4Lpu1mYHY6o2CwLVHFO
+       Reply sent.
+    Received from 192.168.1.196: 8Ftw3ZFyxsNLPklwwOgLqFId0efjQQbGZKWfTXIjgkPOBo0ChW79jExW
+       Reply sent.
+    Received from 192.168.1.196: EaoScdRhRRDyZ18Zs9WKbXRSmrbhwGgAdiU93Pi94jI4xwo3N3i9qBgC
+       Reply sent.
+    Received from 192.168.1.196: WgcxJ3Eb7ahRH2cAgFAPXxaZEI7WiDFmunzf7wOBjHpRGjh7lXvupya6
+       Reply sent.
+    Received from 192.168.1.196: V7EBohEZklAy6Ies6C3u3ylKH7HwRORYt3lpNK4dVZdAMK49fK7cADoQ
+       Reply sent.
+Analysis:
+    The average rtt in this case is 105.540ms with no timeouts.
+
+--- Test 2c: LOSS_RATE = 0.2 and AVERAGE_DELAY = 0   ---
+Client Output:
+    PING 192.168.1.233 0 10.258
+    PING 192.168.1.233 1 4.426
+    PING 192.168.1.233 2 8.542
+    PING 192.168.1.233 3 LOST
+    PING 192.168.1.233 4 2.904
+    PING 192.168.1.233 5 2.105
+    PING 192.168.1.233 6 LOST
+    PING 192.168.1.233 7 3.015
+    PING 192.168.1.233 8 2.730
+    PING 192.168.1.233 9 1.990
+Server Output:
+    Received from 192.168.1.196: EwPOggRc9gzAXybUIQtoZEdwzL6RMI5rQa6MsFKU9n1FPZXlkgcbFFsa
+       Reply sent.
+    Received from 192.168.1.196: GkSM4PTYbHtmRucFZ7N2pGfdlPWDRrSFy1LnLP043DkmfHjGVKwtiLM0
+       Reply sent.
+    Received from 192.168.1.196: FEgu5ourmJFB4Op61WriDM4AyGIXOyClHJBiItJFLtiDAUTqzETxdIl3
+       Reply sent.
+    Received from 192.168.1.196: lcI4fKNThNGWAaALmc0DiRSvcdq2CVllUSK28PrZ6SNlaDoM96sY0Nuw
+       Reply not sent.
+    Received from 192.168.1.196: C7Zkg0Z5B3iYNXmZ6WWai9jPY0blQNtCUbN6yKup1WhunxhZZR8JqcJr
+       Reply sent.
+    Received from 192.168.1.196: jjHtxr9lUlN3VvSWFiGQlu2tK4QQo7sjdPbIkk2DB6GoX0E1a7I6bIoc
+       Reply sent.
+    Received from 192.168.1.196: qwDxk2qAdgrac3YhBNAog8D3JP9DOhUxORIT9zoc552Xk57DByIGcW28
+       Reply not sent.
+    Received from 192.168.1.196: X2xvKhRvGcIwIKGD5jOqfYGLTDXbRVlm2wNTw6ZatYByUX7ToUZ5Vu6Q
+       Reply sent.
+    Received from 192.168.1.196: 9dtBZENkl06lE8ewSTUoXrm1NkEqWS05ainmghXbnirjasWnxgP1dlTM
+       Reply sent.
+    Received from 192.168.1.196: NqeqtLLPQV23NkPb0CV4YKCacDdXJE71azhl6taD0sSS5D6cFpSRallS
+       Reply sent.
+Analysis:
+    The average rtt in this case is 4.496ms (excluding timeouts), and 2 packets are considered lost (dropped
+        intentionally by server).
+
+--- Test 2d: LOSS_RATE = 0.2 and AVERAGE_DELAY = 100 ---
+Client Output:
+    PING 192.168.1.233 0 99.174
+    PING 192.168.1.233 1 LOST
+    PING 192.168.1.233 2 68.895
+    PING 192.168.1.233 3 LOST
+    PING 192.168.1.233 4 LOST
+    PING 192.168.1.233 5 70.991
+    PING 192.168.1.233 6 181.694
+    PING 192.168.1.233 7 LOST
+    PING 192.168.1.233 8 150.122
+    PING 192.168.1.233 9 LOST
+Server Output:
+    Received from 192.168.1.196: dPX2nmteFPA6F1ytyEcHoFf1Inqz9rSGcpizd8YDwzFLnYSPRBX7dOCX
+       Reply sent.
+    Received from 192.168.1.196: AiSpNuaSKabGCLHP4Hw3yacgn5oFrFCqmsgEdUffew24jMflupcMkUBO
+       Reply not sent.
+    Received from 192.168.1.196: yRTJzz81OCmMkPRj8weJ04I6jqFJqupjSHAjRy4YlbWIfI0gzTc31wWt
+       Reply sent.
+    Received from 192.168.1.196: gA0Iq74pvSxRybf29eMKq5DXNNd7wOOaJPQhPLlamMbqPmE1PXfXBMm1
+       Reply not sent.
+    Received from 192.168.1.196: u68VOkb1JrG0JSEnEUiFFvObo4gCmsttN4vaZv3xaxpj8p2EsMogjpty
+       Reply not sent.
+    Received from 192.168.1.196: NOTYkPUcghcTdFGb86ixFVd8wepmEKdw2QIxV7w682iBL9PWnnXGUq5X
+       Reply sent.
+    Received from 192.168.1.196: t0uaNmbh7Nf9VlQi0nVr0EnO8iH4p5PqtDKJWA7VkeM7J3cInXxARcVS
+       Reply sent.
+    Received from 192.168.1.196: z04bfGySrgQDR5l33ENjblT5Vo1yICjoWKab0VgcL8zwZqWtPVFxUSoe
+       Reply not sent.
+    Received from 192.168.1.196: sYZbFR23jNbZTutHm1Itl3XgSrV2lJtKT9k4AplvEqHkyjGj7riR16ru
+       Reply sent.
+    Received from 192.168.1.196: B7h3N0QXdNdIpiVuRlf1GlAhbRxnWbDKVEGyyT26U1OTJlfLsskJwM4k
+       Reply not sent.
+Analysis:
+    The average rtt in this case is 114.175ms (excluding timeouts), and 5 packets are considered lost (dropped
+        intentionally by server).
+
+
+********** Test 3: Server and Client on Different Machine in Different Networks **********
+Server: Windows Desktop on Spectrum Network (67.240.61.49:8001)
+Client: Android Phone on T-Mobile Network (6.139.162.182)
+
+Note: Because the server is hidden behind a NAT table, port forwarding is enabled in home
+    router in order for the client to reach the server.
+
+--- Test 3a: LOSS_RATE = 0   and AVERAGE_DELAY = 0   ---
+Client Output:
+    PING 67.240.61.49 0 131.216
+    PING 67.240.61.49 1 143.393
+    PING 67.240.61.49 2 288.146
+    PING 67.240.61.49 3 135.910
+    PING 67.240.61.49 4 123.554
+    PING 67.240.61.49 5 144.483
+    PING 67.240.61.49 6 111.897
+    PING 67.240.61.49 7 123.296
+    PING 67.240.61.49 8 118.097
+    PING 67.240.61.49 9 168.978
+Server Output:
+    Received from 172.58.236.33: 5GrNimN1nJUiLBTRArfxOqOer2bBktRm0V3zEAH2JrIr7pEvbPKYZ4wO
+       Reply sent.
+    Received from 172.58.236.33: No9KYan4YyS7aYgsSqnVlVVgOwvjlmUwj8A6XCtU3Cj9SppETc0ozbOC
+       Reply sent.
+    Received from 172.58.236.33: LEX1xmjpsOTMuftIjYO20DLOVG1VgHqFaW0CmFfyvwctSyLGexaCbOPR
+       Reply sent.
+    Received from 172.58.236.33: mnDmkrOvcaOthLoj2BKnfPsxWmREi4hJkecTF78ZSmR6AEK6m8rvD8XC
+       Reply sent.
+    Received from 172.58.236.33: n70RzUrauebIkX22I8VraSOztCCtXYUkns2FXkRBhgFVcy2yHo5CgX5o
+       Reply sent.
+    Received from 172.58.236.33: kshpEmKQCKqvoMF0TN0jYoFQUmGGoyO68fwqPExVcxTKiYnV9KI3nSwV
+       Reply sent.
+    Received from 172.58.236.33: zLO8y0k67HuIS9GZ8PM0tlN6vsqW9Xb4HO72JaOP35xWhHO6bdeQq0Xd
+       Reply sent.
+    Received from 172.58.236.33: EfwfA5oGEDszQyXsEFisDUGeZQBhGothlKrAoiWTY8ZA84NoZOUZli4s
+       Reply sent.
+    Received from 172.58.236.33: syUYapSdCJxBb21ybT0xCltVRv7kJNGFWTlyQlHlMSe9Y77vVhYrEvHj
+       Reply sent.
+    Received from 172.58.236.33: q43J4630tyqjchNhKsOJC0L7AUkHyxmj2mIrDP8kaM2YdD5FyE1xvGYQ
+       Reply sent.
+Analysis:
+    The average rtt in this case is 148.897ms with no timeouts.
+
+--- Test 3b: LOSS_RATE = 0   and AVERAGE_DELAY = 100 ---
+Client Output:
+    PING 67.240.61.49 0 258.837
+    PING 67.240.61.49 1 222.393
+    PING 67.240.61.49 2 268.223
+    PING 67.240.61.49 3 279.067
+    PING 67.240.61.49 4 194.336
+    PING 67.240.61.49 5 174.251
+    PING 67.240.61.49 6 149.544
+    PING 67.240.61.49 7 583.548
+    PING 67.240.61.49 8 192.742
+    PING 67.240.61.49 9 354.533
+Server Output:
+    Received from 172.58.236.33: APAsD7Y4FFTJnfXzGI83PRINnV5lrtc5H2MKBbOhCi3cNXWod5J5thMW
+       Reply sent.
+    Received from 172.58.236.33: CUu4Sf1XpkXzcksaA4KbrbouLbNlZXvwwtkizTO0S7pIyl18KLcJBO86
+       Reply sent.
+    Received from 172.58.236.33: oQhW6ajE6SvzZFpDNE4RdN5KGWQEXYSDIuvLJsftGdV1J4Vy3sNnqlt3
+       Reply sent.
+    Received from 172.58.236.33: FgMKJFTvzxUCxR9IQ2lZXXeOX0HCWe06Q4yplxnWGkGCPaqDbTsTAuCH
+       Reply sent.
+    Received from 172.58.236.33: xiLBSQpEufkuLFQyg8NNTQxU120zC58aSG8OpDMWuMZzLe7GRHJ3I0b6
+       Reply sent.
+    Received from 172.58.236.33: 7THIk2ad4xpoh5FVhTFr9fDHHAUVdWE5XROyx1gCAJTZYSuFxj5oTLx9
+       Reply sent.
+    Received from 172.58.236.33: S4iNaAL1GpsP7y49iEHSQ1xqduM0YlNIt2MsCdb8UXj1fO0hwQAWsZjM
+       Reply sent.
+    Received from 172.58.236.33: 9CJjo0mDesrr89avcYCkksSMaV8066NY0CTEZdpCuaEOF7Si7fOQejPk
+       Reply sent.
+    Received from 172.58.236.33: u23Dgpcl6YBjoxgChFGoT4Ckjj1WrnqE7j96faf3wvBJmeqvIBaTP8Fd
+       Reply sent.
+    Received from 172.58.236.33: qmz26oxhsPQ6ASw8o5kZWedjD65xGpDShKLk3VvGs85xZKg3vbJCGmin
+       Reply sent.
+Analysis:
+    The average rtt in this case is 267.747ms with no timeouts.
+
+--- Test 3c: LOSS_RATE = 0.2 and AVERAGE_DELAY = 0   ---
+Client Output:
+    PING 67.240.61.49 0 137.587
+    PING 67.240.61.49 1 LOST
+    PING 67.240.61.49 2 LOST
+    PING 67.240.61.49 3 142.662
+    PING 67.240.61.49 4 133.779
+    PING 67.240.61.49 5 129.892
+    PING 67.240.61.49 6 100.887
+    PING 67.240.61.49 7 131.627
+    PING 67.240.61.49 8 LOST
+    PING 67.240.61.49 9 LOST
+Server Output:
+    Received from 172.58.236.33: Ui4iCdgXkDphRj6Ibb473BR5VD8xe0n3feHMd3aEahFzKOzgx72iDx0V
+       Reply sent.
+    Received from 172.58.236.33: EACITzI2wQfOqji85F1Ex6FW4SVYhhFpRDdgWI5OWwTyOY8GTJNGWN0R
+       Reply not sent.
+    Received from 172.58.236.33: 3Qj5X1xtSCORsY1EovPS0J9pJprBAmGktZov2aTKWp7k7OoMaXsK4r68
+       Reply not sent.
+    Received from 172.58.236.33: YnANSvifxmvK2XUnKNOz3pT8WSENSzEB8asi7C0IzeACbuFyRY2Kig0g
+       Reply sent.
+    Received from 172.58.236.33: iZePOdyvDM4XRHJtyNyJ1OvMRCybAqDaeOJ9Inplr7UARyDIEf67YNum
+       Reply sent.
+    Received from 172.58.236.33: SNFFEVjexeDDWmq3Ji7jr6veOLn0HRorA3zGnUgKpMSZRUKKaeiaA2cY
+       Reply sent.
+    Received from 172.58.236.33: Jiu83NxccVGNsXc1tyaruEfsQrLlKJriIxlRfXqGN9tpl1PsktagxR67
+       Reply sent.
+    Received from 172.58.236.33: lOEc62i0naCAsSVw1y5xGmKdJSi44ZsCjjqzirMitVOqRtULHZZso1Ta
+       Reply sent.
+    Received from 172.58.236.33: vL7BEJDUQ9oJGMJb8ETYAWR0bwZu5q9SRBRZsFkLbERyah98W2W3g01Q
+       Reply not sent.
+    Received from 172.58.236.33: rSUNQMW9X3dijNcxepYLqyeqdvMWzALFU5n0qkjzAIOTfcCbOrkn547S
+       Reply not sent.
+Analysis:
+    The average rtt in this case is 129.406ms (excluding timeouts), and 4 packets are considered lost (dropped
+        intentionally by server).
+
+--- Test 3d: LOSS_RATE = 0.2 and AVERAGE_DELAY = 100 ---
+Client Output:
+    PING 67.240.61.49 0 132.876
+    PING 67.240.61.49 1 318.536
+    PING 67.240.61.49 2 428.302
+    PING 67.240.61.49 3 197.005
+    PING 67.240.61.49 4 366.564
+    PING 67.240.61.49 5 266.775
+    PING 67.240.61.49 6 264.990
+    PING 67.240.61.49 7 230.100
+    PING 67.240.61.49 8 LOST
+    PING 67.240.61.49 9 LOST
+Server Output:
+    Received from 172.58.236.33: nHvXvKnwcbX02kddl46ArEUkVV3PSeJKAXkkxmvzNO89VR1Sd64iwyz2
+       Reply sent.
+    Received from 172.58.236.33: uGki2LdaeoaJfH2DP80ghilXe4LMHbxbibnaz1pHWXkchjN8Kj8SHVVa
+       Reply sent.
+    Received from 172.58.236.33: Ngdfy5Bygd6gxUetVohcuwYFKhJeOOH4lXl30zs4KPWylulSvyRKohaG
+       Reply sent.
+    Received from 172.58.236.33: oDk0brsS4lTvZWGmLkWnrKpKlahn5PMPXYWgIUEr4EkUb4jxdZ9vXUIA
+       Reply sent.
+    Received from 172.58.236.33: GbpeZ5HM3DUt57Gxkr75rNN5h959KNI90oKi37lsrXLaWLmOx6fZRoEB
+       Reply sent.
+    Received from 172.58.236.33: kWFjfcI0ab9xijywdYImRpyihbfTW7iKlgQ8Ihrv78zX2IoX2lYHdADe
+       Reply sent.
+    Received from 172.58.236.33: vDUTbT89QHCbuzIp2dvL9iQIbfxh9HKBJW0BToulXfW7yWT5Y6xYUmL6
+       Reply sent.
+    Received from 172.58.236.33: TwOQEnLIr0CKteNOj1XcEyvABQzDZFDP4OLZOtqXJUGRi5jNNNxQSAgO
+       Reply sent.
+    Received from 172.58.236.33: 3lYNe0vZ4OIMZGK72XeHlBkKpBTpV7K8WnSoii2TFYnkBkIQ4ZTIVReq
+       Reply not sent.
+    Received from 172.58.236.33: Mza0EblBo1QG8dkD7JiGWdm3jNt8u80702HCacKAzAMptvHA6Obep6W0
+       Reply not sent.
+Analysis:
+    The average rtt in this case is 275.644ms (excluding timeouts), and 2 packets are considered lost (dropped
+        intentionally by server).

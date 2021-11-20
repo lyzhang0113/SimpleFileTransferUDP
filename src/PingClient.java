@@ -10,8 +10,11 @@ import java.util.concurrent.TimeUnit;
  */
 public class PingClient {
 
+    /* Print Average RTT Messages */
+    private static final boolean CALCULATE_AVG_RTT = false;
+
     /* Number of ping requests to be sent to the server */
-    private static final int PING_REQUESTS = 5;
+    private static final int PING_REQUESTS = 10;
 
     /* Interval between each ping request */
     private static final int SLEEP_INTERVAL = 1000; // milliseconds
@@ -26,17 +29,17 @@ public class PingClient {
 
         // Get Command Line Arguments
         if (args.length != 2) {
-            System.out.println("Correct Usage: \njava PingClient <host-name> <port-number>");
+            System.out.println("Incorrect Usage: \njava PingClient <host-name> <port-number>");
             return;
         }
-        String hostname = args[0];
+        InetAddress serverAddress = InetAddress.getByName(args[0]);
         int port = Integer.parseInt(args[1]);
-        InetAddress serverAddress = InetAddress.getByName(hostname);
-        assert serverAddress.isReachable(1000) : "The hostname <" + hostname + "> is not reachable!";
 
         // Create socket for sending ping requests
         DatagramSocket socket = new DatagramSocket(); // Client uses random port
         socket.setSoTimeout(SOCKET_TIMEOUT);
+
+        long[] rtt = new long[PING_REQUESTS];
 
         // Send Ping Requests
         for (int i = 0; i < PING_REQUESTS; i++) {
@@ -52,14 +55,14 @@ public class PingClient {
                 // Receive Reply
                 long startTime = System.nanoTime(); // Starting counting time after packet sent
                 socket.receive(pingResponse);
-                long endTime = System.nanoTime(); // Stop timer
+                rtt[i] = System.nanoTime() - startTime; // Stop timer
 
                 // Check received data integrity
                 assert pingResponse.getData() == data : "ERROR: Received Incorrect Message.";
 
                 // Print Result
                 System.out.println("PING " + pingResponse.getAddress().getHostAddress() + " " + i + " "
-                        + String.format("%.3f", TimeUnit.MICROSECONDS.convert((endTime - startTime), TimeUnit.NANOSECONDS) / 1000.0));
+                        + String.format("%.3f", TimeUnit.MICROSECONDS.convert(rtt[i], TimeUnit.NANOSECONDS) / 1000.0));
 
             } catch (SocketTimeoutException socketTimeoutException) {
                 // Timeout occurred
@@ -69,6 +72,18 @@ public class PingClient {
             Thread.sleep(SLEEP_INTERVAL);
         }
 
+        if (CALCULATE_AVG_RTT) {
+            // Calculate Average RTTs (Ignoring Timeouts)
+            long sum = 0;
+            int valid = 0;
+            for (int i = 0; i < PING_REQUESTS; i++) {
+                if (rtt[i] != 0) {
+                    sum += rtt[i];
+                    valid++;
+                }
+            }
+            System.out.println("Average rtt: " + String.format("%.3f", TimeUnit.MICROSECONDS.convert(sum / valid, TimeUnit.NANOSECONDS) / 1000.0));
+        }
     }
 
     /**
