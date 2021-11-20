@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.net.*;
 import java.util.concurrent.TimeUnit;
 
-
+/**
+ * Client to transfer file over UDP.
+ */
 public class SftpClient {
 
     /* Print DEBUG Messages */
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     /* The name of the file to be sent to the server */
     private static final String FILENAME = "inputfile";
@@ -71,7 +73,16 @@ public class SftpClient {
         }
     }
 
-    private static void sendDataPacket(DatagramSocket socket, InetAddress dst, byte[] data, byte seq)
+    /**
+     * Send a data packet to designated address and port {@value SERVER_PORT} with current sequence number.
+     * @param socket UDP socket which the program uses to send packets / transfer files
+     * @param dstAddress Destination Server Address
+     * @param data Data to be sent in the packet (without sequence number byte), max {@value MAX_DATA_SIZE_PER_PACKET} Bytes
+     * @param seq Current sequence number (expect this sequence number to be ACKed by server)
+     * @throws ConnectException When packet retransmission limit has reached (Retried for {@value RETRANSMISSION_LIMIT} times)
+     * @throws IOException Receiving and sending packets in socket produces this Exception
+     */
+    private static void sendDataPacket(DatagramSocket socket, InetAddress dstAddress, byte[] data, byte seq)
             throws IOException {
         // Construct new data array to include sequence number
         byte[] dataWithSeq = new byte[data.length + 1];
@@ -79,14 +90,14 @@ public class SftpClient {
         System.arraycopy(data, 0, dataWithSeq, 1, data.length);
 
         // Send this data
-        DatagramPacket transmitFile = new DatagramPacket(dataWithSeq, dataWithSeq.length, dst, SERVER_PORT);
+        DatagramPacket transmitFile = new DatagramPacket(dataWithSeq, dataWithSeq.length, dstAddress, SftpClient.SERVER_PORT);
         DatagramPacket receiveAck = new DatagramPacket(new byte[1], 1);
 
         for (int retries = RETRANSMISSION_LIMIT; retries >= 0; retries--) {
             try {
                 // Send Data Packet
                 socket.send(transmitFile);
-                if (DEBUG) System.out.println("Packet " + (++packet_count) + " sent , size = " + data.length);
+                if (DEBUG) System.out.println("Packet " + (++packet_count) + " sent, size = " + data.length);
 
                 // Receive Ack
                 socket.receive(receiveAck);
