@@ -48,7 +48,7 @@ public class SftpServer {
                 data = receiveDataPacket(socket, receiveFile, expectedSeq);
             } catch (IllegalStateException illegalStateException) {
                 // Ignore if dropped or out-of-order
-                System.out.println("    " + illegalStateException.getMessage());
+                System.out.println("    " + "Packet " + (packet_count--) + " " + illegalStateException.getMessage());
                 continue;
             }
 
@@ -71,7 +71,7 @@ public class SftpServer {
                     ignorePacket = false;
                 } catch (IllegalStateException illegalStateException) {
                     // Packet dropped or out-of-order -> ignore it for writing
-                    System.out.println("     " + illegalStateException.getMessage());
+                    System.out.println("    " + "Packet " + (packet_count--) + " " + illegalStateException.getMessage());
                     ignorePacket = true;
                 }
             }

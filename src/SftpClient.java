@@ -107,6 +107,7 @@ public class SftpClient {
                 }
                 break;
             } catch (SocketTimeoutException socketTimeoutException) {
+                if (DEBUG) System.out.println("    Packet " + (packet_count--) + " Timeout.");
                 // Check Retry Count
                 if (retries - 1 < 0) {
                     throw new ConnectException("packet retransmission limit reached");
