@@ -83,12 +83,13 @@ public class PingClient {
                 }
             }
             System.out.println("Average rtt: " + String.format("%.3f", TimeUnit.MICROSECONDS.convert(sum / valid, TimeUnit.NANOSECONDS) / 1000.0));
+            System.out.println("Sent: " + PING_REQUESTS + "   SUCCESS: " + valid + "   LOSS: " + (PING_REQUESTS - valid));
         }
     }
 
     /**
-     * Generate a random packet data using common characters.
-     * @return byte[] generated random data
+     * Generate a random packet data with length {@value MESSAGE_LENGTH} Bytes using common characters.
+     * @return byte[] generated random data, length {@value MESSAGE_LENGTH} Bytes
      */
     private static byte[] generateRandMsg() {
         String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

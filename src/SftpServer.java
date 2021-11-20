@@ -88,6 +88,8 @@ public class SftpServer {
 
     /**
      * Receive a data packet from designated socket and expected sequence number.
+     * Packet Loss is simulated by intentionally not replying to received packets with a rate of {@value LOSS_RATE}.
+     * A random network delay is added before sending ACK packets, the delay has an average of {@value AVERAGE_DELAY} ms.
      * @param socket UDP socket which the program listens to
      * @param packet Data packet to be received
      * @param seq Expected sequence number
